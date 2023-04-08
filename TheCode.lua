@@ -61,8 +61,8 @@ local NotificationSound5 = Instance.new("Sound")
 
 local Onichan = Instance.new("Sound")
 
-local Whitelist = loadstring(game:HttpGet('https://raw.githubusercontent.com/SrGask/LChecker/main/WhiteList'))()
-local ImportantHolder = loadstring(game:HttpGet('https://raw.githubusercontent.com/SrGask/LChecker/main/Yes'))()
+local Whitelist = loadstring(game:HttpGet('https://raw.githubusercontent.com/vSpook/LChecker/main/WhiteList.lua'))()
+local ImportantHolder = loadstring(game:HttpGet('https://raw.githubusercontent.com/vSpook/LChecker/main/Yes'))()
 
 TW = game:GetService('TweenService')
 UIS = game:GetService('UserInputService')
