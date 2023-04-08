@@ -1,1 +1,1 @@
-loadstring(game:HttpGet("https://raw.githubusercontent.com/SrGask/LChecker/main/TheCode", true))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/vSpook/LChecker/main/TheCode", true))()
