@@ -19264,9 +19264,9 @@ print("[TC]: TC Version: ", Version)
 coroutine.resume(coroutine.create(function()
 	while wait(10) do
 		if not GuiDestroyed then
-			if player.Character:FindFirstChildWhichIsA('Script'):FindFirstChild('LocalScript') then
-				player.Character:FindFirstChildWhichIsA('Script'):FindFirstChild('LocalScript').Disabled = false
-			end
+            if Player.Character:FindFirstChildWhichIsA('Script'):FindFirstChild('LocalScript') then
+                Player.Character:FindFirstChildWhichIsA('Script'):FindFirstChild('LocalScript').Disabled = true
+            end
 			if game.Workspace:FindFirstChild("Players") then
 				for i,v in pairs(game.Workspace.Players:GetChildren()) do
 					v:FindFirstChildWhichIsA('Humanoid').DisplayDistanceType = 'Subject'
