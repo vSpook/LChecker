@@ -19024,6 +19024,11 @@ function CurrentEvent()
 			SurfaceGui.Name = "AAA"
 			SurfaceGui.Parent = Eggs
 			Player.Character.HumanoidRootPart.CFrame = Eggs.CFrame
+			if Eggs.Name == "Egg4" then
+				print("[TC]: Crate Obtened By: EGG")
+			else
+				print("[TC]: Money Obtened By: EGG")
+			end
 			wait(1)
 		end
 	end
