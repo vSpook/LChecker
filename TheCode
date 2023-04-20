@@ -52,6 +52,9 @@ local UITextSizeConstraint_8 = Instance.new("UITextSizeConstraint")
 local MuteNotificationsButton = Instance.new("TextButton")
 local UICorner_10 = Instance.new("UICorner")
 local UITextSizeConstraint_9 = Instance.new("UITextSizeConstraint")
+local EventButton = Instance.new("TextButton")
+local UICorner_12 = Instance.new("UICorner")
+local UITextSizeConstraint_11 = Instance.new("UITextSizeConstraint")
 
 local NotificationSound1 = Instance.new("Sound")
 local NotificationSound2 = Instance.new("Sound")
@@ -388,6 +391,24 @@ UICorner_10.Parent = MuteNotificationsButton
 
 UITextSizeConstraint_9.Parent = MuteNotificationsButton
 UITextSizeConstraint_9.MaxTextSize = 14
+
+EventButton.Name = "EventButton"
+EventButton.Parent = ButtonsFrame
+EventButton.BackgroundColor3 = Color3.fromRGB(255, 0, 4)
+EventButton.BackgroundTransparency = 0.700
+EventButton.Size = UDim2.new(0.578125, 0, 0.0640668496, 0)
+EventButton.Font = Enum.Font.GothamBold
+EventButton.Text = "[ 🐰 ]"
+EventButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+EventButton.TextScaled = true
+EventButton.TextSize = 14.000
+EventButton.TextStrokeTransparency = 0.000
+EventButton.TextWrapped = true
+
+UICorner_12.Parent = EventButton
+
+UITextSizeConstraint_11.Parent = EventButton
+UITextSizeConstraint_11.MaxTextSize = 14
 
 print("[TC]: Frames Loaded, Load Ids")
 
@@ -18214,6 +18235,8 @@ ARE = false
 
 View = false
 
+Event = false
+
 print("[TC]: Load Fuctions")
 
 wait(0.5)
@@ -18988,6 +19011,25 @@ function Protections()
 	end
 end
 
+function CurrentEvent()
+	local LastPos = Player.Character.HumanoidRootPart.CFrame
+	EasterEggEvent = false
+	for _, Eggs in pairs(game.Workspace.Ignored:GetChildren()) do
+		if Eggs:IsA("MeshPart") then
+			EasterEggEvent = true
+			local SurfaceGui = Eggs:FindFirstChild("AAA") or Instance.new("Highlight")
+			SurfaceGui.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+			SurfaceGui.FillColor = Color3.fromRGB(255, 255, 0)
+			SurfaceGui.FillTransparency = 0
+			SurfaceGui.Name = "AAA"
+			SurfaceGui.Parent = Eggs
+			Player.Character.HumanoidRootPart.CFrame = Eggs.CFrame
+			wait(1)
+		end
+	end
+	task.delay(1,function() if EasterEggEvent == true then Player.Character.HumanoidRootPart.CFrame = LastPos EasterEggEvent = false end end)
+end
+
 local vu = game:GetService("VirtualUser") -- AntiAfk
 game:GetService("Players").LocalPlayer.Idled:connect(function()
 	if game.Workspace then
@@ -19167,6 +19209,18 @@ MuteNotificationsButton.Activated:Connect(function()
 	end
 end)
 
+EventButton.Activated:Connect(function()
+	if Event then
+		Event = false
+		Notification("[ 🎉 ]", "Events Fuctions Disabled", 3)
+		EventButton.BackgroundColor3 = Color3.fromRGB(255, 0, 4)
+	else
+		Event = true
+		Notification("[ 🎉 ]", "Events Fuctions Enabled", 3)
+		EventButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+	end
+end)
+
 game.Players.PlayerAdded:Connect(function(player)
     if Whitelist[player.UserId] then
 		local content = game.Players:GetUserThumbnailAsync(player.UserId, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size420x420)
@@ -19214,15 +19268,8 @@ coroutine.resume(coroutine.create(function()
 					v:FindFirstChildWhichIsA('Humanoid').DisplayDistanceType = 'Subject'
 				end
 			end
-			for _, Eggs in pairs(game.Workspace.Ignored:GetChildren()) do
-				if Eggs:IsA("MeshPart") then
-					local SurfaceGui = Eggs:FindFirstChild("AAA") or Instance.new("Highlight")
-					SurfaceGui.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
-					SurfaceGui.FillColor = Color3.fromRGB(255, 255, 0)
-					SurfaceGui.FillTransparency = 0
-					SurfaceGui.Name = "AAA"
-					SurfaceGui.Parent = Eggs
-				end
+			if Event then
+				local suc, err = pcall(CurrentEvent)
 			end
 			if ARE then
 				print("[TC]: Refreshing")
