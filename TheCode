@@ -19015,7 +19015,7 @@ function CurrentEvent()
 	local LastPos = Player.Character.HumanoidRootPart.CFrame
 	EasterEggEvent = false
 	for _, Eggs in pairs(game.Workspace.Ignored:GetChildren()) do
-		if Eggs:IsA("MeshPart") then
+		if Eggs:IsA("MeshPart") and Eggs.Name ~= "Part" then
 			EasterEggEvent = true
 			local SurfaceGui = Eggs:FindFirstChild("AAA") or Instance.new("Highlight")
 			SurfaceGui.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
