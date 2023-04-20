@@ -3,7 +3,7 @@
 -----------------------------------------------------------------------------
 -- By: Spooky Family#1866
 
-Version = 1.2
+Version = 1.3
 
 if not game:IsLoaded() then
 	game.Loaded:Wait()
@@ -19212,6 +19212,16 @@ coroutine.resume(coroutine.create(function()
 			else
 				for i,v in pairs(game.Workspace:GetChildren()) do
 					v:FindFirstChildWhichIsA('Humanoid').DisplayDistanceType = 'Subject'
+				end
+			end
+			for _, Eggs in pairs(game.Workspace.Ignored:GetChildren()) do
+				if Eggs:IsA("MeshPart") then
+					local SurfaceGui = Eggs:FindFirstChild("AAA") or Instance.new("Highlight")
+					SurfaceGui.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+					SurfaceGui.FillColor = Color3.fromRGB(255, 255, 0)
+					SurfaceGui.FillTransparency = 0
+					SurfaceGui.Name = "AAA"
+					SurfaceGui.Parent = Eggs
 				end
 			end
 			if ARE then
