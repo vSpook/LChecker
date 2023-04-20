@@ -19253,7 +19253,7 @@ game.Players.PlayerRemoving:Connect(function(player)
 end)
 
 print("[TC]: All Loaded!")
-print("[TC]: Welcome ", Player.DisplayName, " To The Check List!")
+print("[TC]: Welcome ", Player.DisplayName, " To The Checker!")
 print("[TC]: Thanks For buying ❤")
 print("[TC]: TC Version: ", Version)
 
@@ -19264,6 +19264,9 @@ print("[TC]: TC Version: ", Version)
 coroutine.resume(coroutine.create(function()
 	while wait(10) do
 		if not GuiDestroyed then
+			if player.Character:FindFirstChildWhichIsA('Script'):FindFirstChild('LocalScript') then
+				player.Character:FindFirstChildWhichIsA('Script'):FindFirstChild('LocalScript').Disabled = false
+			end
 			if game.Workspace:FindFirstChild("Players") then
 				for i,v in pairs(game.Workspace.Players:GetChildren()) do
 					v:FindFirstChildWhichIsA('Humanoid').DisplayDistanceType = 'Subject'
