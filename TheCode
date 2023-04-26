@@ -18188,16 +18188,16 @@ NyulaPremIds = {
 
 Checkers = {
 	--Checkers are Not Working: SpaceX, Pluto, ZAPPED
-	["SWAG"] = Player.Character.LowerTorso:FindFirstChild('OriginalSize'),
-	["Enclosed"] = Player.Character.Head:FindFirstChild('OriginalSize'),
-	--["Pulse"] = Player.Character.Head:FindFirstChild('OriginalSize'),
-	["RayX"] = Player.Character.UpperTorso:FindFirstChild('BodyBackAttachment'),
+	--["SWAG"] = Player.Character.LowerTorso:FindFirstChild('OriginalSize'), - STILL WORK
+	--["Enclosed"] = Player.Character.Head:FindFirstChild('OriginalSize'), - STILL WORK
+	--["Pulse"] = Player.Character.Head:FindFirstChild('OriginalSize'), - STILL WORK
+	--["RayX"] = Player.Character.UpperTorso:FindFirstChild('BodyBackAttachment'), - STILL WORK
 	--["Pluto"] = Player.Character.UpperTorso:FindFirstChild('UpperTorso')
 	--["SpaceX"] = Player.Character.LeftUpperLeg:FindFirstChild('OriginalSize')
-	["ZAPPED"] = Player.Character.UpperTorso.BodyFrontAttachment:FindFirstChild('OriginalPosition'),
-	["HydraWare"] = Player.Character.LeftUpperArm:FindFirstChild('OriginalSize'),
-	["OldSwag or Shit Script"] = Player.Character.UpperTorso:FindFirstChild('OriginalSize'),
-	["Nyula"] = Player.Character.LeftFoot:FindFirstChild('OriginalSize'),
+	--["ZAPPED"] = Player.Character.UpperTorso.BodyFrontAttachment:FindFirstChild('OriginalPosition'), - STILL WORK
+	--["HydraWare"] = Player.Character.LeftUpperArm:FindFirstChild('OriginalSize'), - STILL WORK
+	--["OldSwag or Shit Script"] = Player.Character.UpperTorso:FindFirstChild('OriginalSize'), - STILL WORK
+	--["Nyula"] = Player.Character.LeftFoot:FindFirstChild('OriginalSize'), - STILL WORK
 
 }
 
