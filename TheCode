@@ -3,7 +3,7 @@
 -----------------------------------------------------------------------------
 -- By: Spooky Family#1866
 
-Version = 1.3
+Version = 1.4
 
 if not game:IsLoaded() then
 	game.Loaded:Wait()
@@ -144,7 +144,7 @@ delay(math.random(3,5), function()
 	if syn then
 		game.StarterGui:SetCore("SendNotification", {
 			Title = "[ Synapse ]";
-			Text = "Nice exploit!";
+			Text = "Nice Executor!";
 			Duration = 3;
 		})
 		
@@ -152,7 +152,15 @@ delay(math.random(3,5), function()
 	elseif Krnl then
 		game.StarterGui:SetCore("SendNotification", {
 			Title = "[ Krnl ]";
-			Text = "Nice exploit!";
+			Text = "Nice Executor!";
+			Duration = 3;
+		})
+		
+		Onichan:Play()
+	elseif Fluxus then
+		game.StarterGui:SetCore("SendNotification", {
+			Title = "[ Fluxus ]";
+			Text = "Nice Executor!";
 			Duration = 3;
 		})
 		
@@ -160,7 +168,7 @@ delay(math.random(3,5), function()
 	else
 		game.StarterGui:SetCore("SendNotification", {
 			Title = "[" ..identifyexecutor().. "]";
-			Text = "lol";
+			Text = "This API what 🤔??";
 			Duration = 3;
 		})
 		
@@ -18179,16 +18187,17 @@ NyulaPremIds = {
 }
 
 Checkers = {
-
-	--["SWAG"] = Player.Character.LowerTorso:FindFirstChild('OriginalSize')
-	--["Pulse or Enclosed"] = Player.Character.Head:FindFirstChild('OriginalSize')
-	--["RayX"] = Player.Character.UpperTorso:FindFirstChild('BodyBackAttachment')
+	--Checkers are Not Working: SpaceX, Pluto, ZAPPED
+	["SWAG"] = Player.Character.LowerTorso:FindFirstChild('OriginalSize'),
+	["Enclosed"] = Player.Character.Head:FindFirstChild('OriginalSize'),
+	--["Pulse"] = Player.Character.Head:FindFirstChild('OriginalSize'),
+	["RayX"] = Player.Character.UpperTorso:FindFirstChild('BodyBackAttachment'),
 	--["Pluto"] = Player.Character.UpperTorso:FindFirstChild('UpperTorso')
 	--["SpaceX"] = Player.Character.LeftUpperLeg:FindFirstChild('OriginalSize')
-	--["ZAPPED"] = Player.Character.UpperTorso.BodyFrontAttachment:FindFirstChild('OriginalPosition')
-	--["HydraWare"] = Player.Character.LeftUpperArm:FindFirstChild('OriginalSize')
-	--["OldSwag or Shit Script"] = Player.Character.UpperTorso:FindFirstChild('OriginalSize')
-	--["Nyula"] = Player.Character.LeftFoot:FindFirstChild('OriginalSize')
+	["ZAPPED"] = Player.Character.UpperTorso.BodyFrontAttachment:FindFirstChild('OriginalPosition'),
+	["HydraWare"] = Player.Character.LeftUpperArm:FindFirstChild('OriginalSize'),
+	["OldSwag or Shit Script"] = Player.Character.UpperTorso:FindFirstChild('OriginalSize'),
+	["Nyula"] = Player.Character.LeftFoot:FindFirstChild('OriginalSize'),
 
 }
 
@@ -18203,6 +18212,8 @@ wait(0.5)
 Players = game.Players
 Player = Players.LocalPlayer
 Char = Player.Character
+
+BlockAnim = nil
 
 if game:GetService('ReplicatedStorage'):FindFirstChild("MainEvent") then
 	MainEvent = game:GetService('ReplicatedStorage').MainEvent
@@ -18910,6 +18921,10 @@ function CheckNames()
 end
 
 function Protections()
+	local vel
+	local HoldingF
+	local Antifling
+
 	if P then
 		UIS.InputBegan:Connect(function(key,b)
 			if P then
@@ -18942,71 +18957,164 @@ function Protections()
 			end
 		end)
 
-		if P then
-			AutoBlock = true
-			AntiBagColor = true
-			Multiplier = -0.10
-			local Loop
-			local loopFunction = function()
-				local forbidden = {'[RPG]','[SMG]','[TacticalShotgun]','[AK47]','[AUG]','[Glock]', '[Shotgun]','[Flamethrower]','[Silencer]','[AR]','[Revolver]','[SilencerAR]','[LMG]','[P90]','[DrumGun]','[Double-Barrel SG]','[Hamburger]','[Chicken]','[Pizza]','[Cranberry]','[Donut]','[Taco]','[Starblox Latte]','[BrownBag]','[Weights]','[HeavyWeights]'}
-				local Found = false
-				if game.Workspace:FindFirstChild("Players") then
-					for _,v in pairs(game.Workspace.Players:GetChildren()) do
-						if v:IsA("Model") then
-							if v:FindFirstChild("LeftHand") or v:FindFirstChild("RightHand") then
-								if (v.LeftHand.Position - Player.Character.HumanoidRootPart.Position).Magnitude <= MaxDistance or (v.RightHand.Position - Player.Character.HumanoidRootPart.Position).Magnitude <= MaxDistance then
-									if v.BodyEffects.Attacking.Value == true and not table.find(forbidden, v:FindFirstChildWhichIsA('Tool').Name ) and v.Name ~= Player.Name then
-										Found = true
-										MainEvent:FireServer('Block', Player.Name)
+	--[[
+		local function PlayerAdded(plr)
+			local Detected = false
+			local Character
+			local PrimaryPart
+				
+			Antifling = true
 
-									end
+			local function CharacterAdded(NewCharacter)
+				Character = NewCharacter
+				repeat
+					wait()
+					PrimaryPart = NewCharacter:FindFirstChild("HumanoidRootPart")
+				until PrimaryPart
+					Detected = false
+			end
+				
+			CharacterAdded(Player.Character or Player.CharacterAdded:Wait())
+			plr.CharacterAdded:Connect(CharacterAdded)
+			game:GetService("RunService").Heartbeat:Connect(function()
+				if Antifling == true then
+					if (Character and Character:IsDescendantOf(workspace)) and (PrimaryPart and PrimaryPart:IsDescendantOf(Character)) then
+						if PrimaryPart.AssemblyAngularVelocity.Magnitude > 50 or PrimaryPart.AssemblyLinearVelocity.Magnitude > 100 then
+							if Detected == false then
+								print("[TC]", Character.Name, "Try To Fling you!")
+							end
+							Detected = true
+							for i,v in ipairs(Character:GetDescendants()) do
+								if v:IsA("BasePart") then
+									v.CanCollide = false
+									v.AssemblyAngularVelocity = Vector3.new(0, 0, 0)
+									v.AssemblyLinearVelocity = Vector3.new(0, 0, 0)
+									v.CustomPhysicalProperties = PhysicalProperties.new(0, 0, 0)
 								end
-							else
-
+							end
+							PrimaryPart.CanCollide = false
+							PrimaryPart.AssemblyAngularVelocity = Vector3.new(0, 0, 0)
+							PrimaryPart.AssemblyLinearVelocity = Vector3.new(0, 0, 0)
+							PrimaryPart.CustomPhysicalProperties = PhysicalProperties.new(0, 0, 0)
+						end
+					end
+				end
+			end)
+		end
+		for i,v in ipairs(Players:GetPlayers()) do
+			if v ~= Player then
+			PlayerAdded(v)
+			end
+		end
+		Players.PlayerAdded:Connect(PlayerAdded)
+			
+		local LastPosition = nil
+			game:GetService("RunService").Heartbeat:Connect(function()
+				if Antifling == true then
+					pcall(function()
+						local PrimaryPart = Player.Character.PrimaryPart
+						if PrimaryPart.AssemblyLinearVelocity.Magnitude > 250 or PrimaryPart.AssemblyAngularVelocity.Magnitude > 250 then
+							PrimaryPart.AssemblyAngularVelocity = Vector3.new(0, 0, 0)
+							PrimaryPart.AssemblyLinearVelocity = Vector3.new(0, 0, 0)
+							PrimaryPart.CFrame = LastPosition
+						elseif PrimaryPart.AssemblyLinearVelocity.Magnitude < 50 or PrimaryPart.AssemblyAngularVelocity.Magnitude > 50 then
+							LastPosition = PrimaryPart.CFrame
+						end
+					end)
+				end
+			end)
+	]]
+		function AntiLock()
+			if P then
+				Antilock = true 
+				SkyAmount = 90
+				game:GetService("RunService").heartbeat:Connect(function()
+					if Antilock ~= false then
+						for _, Partz in pairs(Player.Character:GetChildren()) do
+							if Partz:IsA("Part") or Partz:IsA("MeshPart") then
+								vel = Partz.Velocity
+								local vec = Partz.Velocity
+								Partz.Velocity = Vector3.new(0, SkyAmount, 0)
+								game:GetService("RunService").RenderStepped:Wait()
+								Partz.Velocity = vec
 							end
 						end
 					end
-				else
+				end)
+			else
+				Antilock = false
+				game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = vel
+			end
+		end
 
-				end
-				if Found == false and HoldingF == false then
-					if Player.Character.BodyEffects:FindFirstChild('Block') then 
-						Player.Character.BodyEffects.Block:Destroy()
+		function MainProtections()
+			if P then
+				AutoBlock = true
+				AntiBagColor = true
+				Multiplier = -0.10
+				local Loop
+				local loopFunction = function()
+					local forbidden = {'[RPG]','[SMG]','[TacticalShotgun]','[AK47]','[AUG]','[Glock]', '[Shotgun]','[Flamethrower]','[Silencer]','[AR]','[Revolver]','[SilencerAR]','[LMG]','[P90]','[DrumGun]','[Double-Barrel SG]','[Hamburger]','[Chicken]','[Pizza]','[Cranberry]','[Donut]','[Taco]','[Starblox Latte]','[BrownBag]','[Weights]','[HeavyWeights]'}
+					local Found = false
+					if game.Workspace:FindFirstChild("Players") then
+						for _,v in pairs(game.Workspace.Players:GetChildren()) do
+							if v:IsA("Model") then
+								if v:FindFirstChild("LeftHand") or v:FindFirstChild("RightHand") then
+									if v.LeftHand or v.RightHand then
+										if (v.LeftHand.Position - Player.Character.HumanoidRootPart.Position).Magnitude <= MaxDistance or (v.RightHand.Position - Player.Character.HumanoidRootPart.Position).Magnitude <= MaxDistance then
+											if v.BodyEffects.Attacking.Value == true and not table.find(forbidden, v:FindFirstChildWhichIsA('Tool').Name ) and v.Name ~= Player.Name then
+												Found = true
+												MainEvent:FireServer('Block', Player.Name)
+											end
+										end
+									end
+								else
+
+								end
+							end
+						end
 					else
 
 					end
-				end
-				if Player.Character:FindFirstChild('Christmas_Sock') then
-					Player.Character:FindFirstChild('Christmas_Sock'):Destroy() 
-				end
-				-- "Anti-Lock"
-				--game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame + game.Players.LocalPlayer.Character.Humanoid.MoveDirection * Multiplier
-				--game.Players.LocalPlayer.Character.Head.CFrame = game.Players.LocalPlayer.Character.Head.CFrame + game.Players.LocalPlayer.Character.Humanoid.MoveDirection * Multiplier
-				-- "Anti-Lock"
-			end;
+					if Found == false and HoldingF == false then
+						if Player.Character.BodyEffects:FindFirstChild('Block') then
+							Player.Character.BodyEffects.Block:Destroy()
+						else
 
-			local Start = function()
-				Loop = game:GetService("RunService").Heartbeat:Connect(loopFunction);
-			end;
+						end
+					end
+					if Player.Character:FindFirstChild('Christmas_Sock') then
+						Player.Character:FindFirstChild('Christmas_Sock'):Destroy() 
+					end
+					-- "Anti-Lock"
+					--game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame + game.Players.LocalPlayer.Character.Humanoid.MoveDirection * Multiplier
+					--game.Players.LocalPlayer.Character.Head.CFrame = game.Players.LocalPlayer.Character.Head.CFrame + game.Players.LocalPlayer.Character.Humanoid.MoveDirection * Multiplier
+					-- "Anti-Lock"
+				end;
 
-			local Pause = function()
-				Loop:Disconnect()
-			end;
+				local Start = function()
+					Loop = game:GetService("RunService").Heartbeat:Connect(loopFunction);
+				end;
 
-			Start()
+				local Pause = function()
+					Loop:Disconnect()
+				end;
 
-			repeat wait() until not AutoBlock or not AntiBagColor
+				Start()
 
-			Pause()
+				repeat wait() until not P or not AutoBlock or not AntiBagColor
+				print("Protections Disabled By P:", P)
+				Pause()
 
-		else
-			AutoBlock = false
-			AntiBagColor = false
+			else
+				AutoBlock = false
+				AntiBagColor = false
+			end
 		end
 
+		AntiLock()
+		MainProtections()
 	else
-
-
 
 	end
 end
@@ -19153,7 +19261,6 @@ end)
 ProtectionsButton.Activated:Connect(function()
 	if P then
 		P = false
-		Protections()
         Notification("[ ! ]", "Protections Disabled", 3)
 		if S then
 			NotificationSound2:Play()
@@ -19226,7 +19333,7 @@ EventButton.Activated:Connect(function()
 	end
 end)
 
-game.Players.PlayerAdded:Connect(function(player)
+Players.PlayerAdded:Connect(function(player)
     if Whitelist[player.UserId] then
 		local content = game.Players:GetUserThumbnailAsync(player.UserId, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size420x420)
 		Notification2("Another Admited User Joined 💖", player.DisplayName, content, 3)
@@ -19242,7 +19349,7 @@ game.Players.PlayerAdded:Connect(function(player)
 	end
 end)
 
-game.Players.PlayerRemoving:Connect(function(player)
+Players.PlayerRemoving:Connect(function(player)
 	if not GuiDestroyed then
 		local content = game.Players:GetUserThumbnailAsync(player.UserId, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size420x420)
 		Notification2("Player Disconnected", player.DisplayName, content, 3)
