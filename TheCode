@@ -62,6 +62,8 @@ local NotificationSound3 = Instance.new("Sound")
 local NotificationSound4 = Instance.new("Sound")
 local NotificationSound5 = Instance.new("Sound")
 
+local TargetSound = Instance.new("Sound")
+
 local Onichan = Instance.new("Sound")
 
 local Whitelist = loadstring(game:HttpGet('https://raw.githubusercontent.com/vSpook/LChecker/main/WhiteList'))()
@@ -93,6 +95,9 @@ NotificationSound4.Parent = Checker
 
 NotificationSound5.SoundId = "rbxassetid://4590662766" -- tururu
 NotificationSound5.Parent = Checker
+
+TargetSound.SoundId = "rbxassetid://8255306220" -- TF2 Piu
+TargetSound.Parent = Checker
 
 Onichan.SoundId = "rbxassetid://130822574" -- Windows
 Onichan.Parent = Checker
@@ -18213,6 +18218,8 @@ Players = game.Players
 Player = Players.LocalPlayer
 Char = Player.Character
 
+Targets = {}
+
 BlockAnim = nil
 
 if game:GetService('ReplicatedStorage'):FindFirstChild("MainEvent") then
@@ -18251,6 +18258,54 @@ Event = false
 print("[TC]: Load Fuctions")
 
 wait(0.5)
+
+function TargetBoard()
+	for _, plr in pairs(game:GetService('Players'):GetChildren()) do
+		if plr.Character:FindFirstChild("TheBillBoard") then
+			if not table.find(Targets, plr.Name) then
+				plr.Character:FindFirstChild("TheBillBoard"):Destroy()
+			end
+		end
+	end
+	for _, TargetList in pairs(Targets) do
+		if game.Players:FindFirstChild(TargetList) then
+			if game.Players:FindFirstChild(TargetList).Character then
+				local TargetBillBoard = game.Players:FindFirstChild(TargetList).Character:FindFirstChild("TheBillBoard") or Instance.new("BillboardGui")
+				TargetBillBoard.Name = "TheBillBoard"
+				TargetBillBoard.Size = UDim2.new(3, 10, 1, 0)
+				TargetBillBoard.StudsOffset = Vector3.new(0, 2.5, 0)
+				TargetBillBoard.ResetOnSpawn = false
+				TargetBillBoard.Adornee = game.Players:FindFirstChild(TargetList).Character:FindFirstChild("HumanoidRootPart")
+				TargetBillBoard.Parent = game.Players:FindFirstChild(TargetList).Character
+				local TargetTextLabel = TargetBillBoard:FindFirstChild("TextLabel") or Instance.new("TextLabel")
+				TargetTextLabel.Name = "TextLabel"
+				TargetTextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				TargetTextLabel.BackgroundTransparency = 1
+				TargetTextLabel.Size = UDim2.new(1, 0, 1, 0)
+				TargetTextLabel.Font = Enum.Font.GothamBlack
+				TargetTextLabel.Text = "[ TARGET ]"
+				TargetTextLabel.TextColor3 = Color3.fromRGB(255, 0, 0)
+				TargetTextLabel.TextScaled = true
+				TargetTextLabel.TextSize = 13
+				TargetTextLabel.TextStrokeTransparency = 0
+				TargetTextLabel.TextWrapped = true
+				TargetTextLabel.Parent = TargetBillBoard
+			end
+		end
+	end
+end
+
+function TargetsTable(Target)
+	local T = nil
+	if not table.find(Targets, Target.Name) then
+		table.insert(Targets, Target.Name)
+		T = table.find(Targets, Target.Name)
+		TargetBoard()
+	else
+		table.remove(Targets, T)
+		TargetBoard()
+	end
+end
 
 function view(Name)
 	wait()
@@ -18300,6 +18355,7 @@ end
 
 function CreateFrame(plr, Rank, ID)
 	if not UserList:FindFirstChild(plr.DisplayName) then
+	
 		local UserFrame = Instance.new("Frame")
 		local UserImage = Instance.new("ImageLabel")
 		local UICorner = Instance.new("UICorner")
@@ -18319,6 +18375,9 @@ function CreateFrame(plr, Rank, ID)
 		local UITextSizeConstraint_4 = Instance.new("UITextSizeConstraint")
 		local UICorner_7 = Instance.new("UICorner")
 		local UITextSizeConstraint_5 = Instance.new("UITextSizeConstraint")
+		local TargetButton = Instance.new("TextButton")
+		local UICorner_8 = Instance.new("UICorner")
+		local UITextSizeConstraint_6 = Instance.new("UITextSizeConstraint")
 
 		local content = game.Players:GetUserThumbnailAsync(ID, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size420x420)
 
@@ -18424,7 +18483,7 @@ function CreateFrame(plr, Rank, ID)
 		UICorner_6.CornerRadius = UDim.new(0.5, 0)
 		UICorner_6.Parent = ViewButton
 
-		UITextSizeConstraint_4.Parent = TPButton
+		UITextSizeConstraint_4.Parent = ViewButton
 		UITextSizeConstraint_4.MaxTextSize = 8
 
 		TPButton.Name = "TPButton"
@@ -18446,6 +18505,26 @@ function CreateFrame(plr, Rank, ID)
 
 		UITextSizeConstraint_5.Parent = TPButton
 		UITextSizeConstraint_5.MaxTextSize = 8
+
+		TargetButton.Name = "TargetButton"
+		TargetButton.Parent = UserFrame
+		TargetButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+		TargetButton.BackgroundTransparency = 0.800
+		TargetButton.BorderSizePixel = 0
+		TargetButton.Position = UDim2.new(0.039, 0, 0.85, 0)
+		TargetButton.Size = UDim2.new(0.151, 0, 0.275, 0)
+		TargetButton.Text = "[👤]"
+		TargetButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+		TargetButton.TextScaled = true
+		TargetButton.TextStrokeTransparency = 0.5
+		TargetButton.TextTransparency = 0.5
+		TargetButton.TextWrapped = true
+
+		UICorner_8.CornerRadius = UDim.new(0.5, 0)
+		UICorner_8.Parent = TargetButton
+
+		UITextSizeConstraint_6.Parent = TargetButton
+		UITextSizeConstraint_6.MaxTextSize = 10
 
 		UserName.Activated:Connect(function()
 			setclipboard(plr.DisplayName)
@@ -18487,6 +18566,28 @@ function CreateFrame(plr, Rank, ID)
 			Notification("[✅]", "Teleported To "..plr.Name, 3)
 			if S then
 				NotificationSound2:Play()
+			end
+		end)
+
+		TargetButton.Activated:Connect(function()
+			if not table.find(Targets, plr.Name) then
+				TargetButton.Text = "[💀]"
+				TargetButton.TextStrokeTransparency = 0
+				TargetButton.TextTransparency = 0
+				TargetsTable(plr)
+				Notification("[⚔]", "Set Target To "..plr.Name, 3)
+				if S then
+					TargetSound:Play()
+				end
+			else
+				TargetButton.Text = "[👤]"
+				TargetButton.TextStrokeTransparency = 0.5
+				TargetButton.TextTransparency = 0.5
+				TargetsTable(plr)
+				Notification("[⚔]", "Remove Target To "..plr.Name, 3)
+				if S then
+					NotificationSound5:Play()
+				end
 			end
 		end)
 
@@ -19123,7 +19224,7 @@ function CurrentEvent()
 	local LastPos = Player.Character.HumanoidRootPart.CFrame
 	EasterEggEvent = false
 	for _, Eggs in pairs(game.Workspace.Ignored:GetChildren()) do
-		if Eggs:IsA("MeshPart") and Eggs.Name ~= "Part" then
+		if Eggs:IsA("MeshPart") and Eggs.Name ~= "Part" and Eggs.Name ~= "Flower" and Eggs.Name ~= "Launcher" then
 			EasterEggEvent = true
 			local SurfaceGui = Eggs:FindFirstChild("AAA") or Instance.new("Highlight")
 			SurfaceGui.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
@@ -19137,10 +19238,10 @@ function CurrentEvent()
 			else
 				print("[TC]: Money Obtened By: EGG")
 			end
-			wait(1)
+			wait(0.1)
 		end
 	end
-	task.delay(1,function() if EasterEggEvent == true then Player.Character.HumanoidRootPart.CFrame = LastPos EasterEggEvent = false end end)
+	task.delay(0.5,function() if EasterEggEvent == true then Player.Character.HumanoidRootPart.CFrame = LastPos EasterEggEvent = false end end)
 end
 
 local vu = game:GetService("VirtualUser") -- AntiAfk
@@ -19330,6 +19431,7 @@ EventButton.Activated:Connect(function()
 		Event = true
 		Notification("[ 🎉 ]", "Events Fuctions Enabled", 3)
 		EventButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+		CurrentEvent()
 	end
 end)
 
@@ -19386,6 +19488,7 @@ coroutine.resume(coroutine.create(function()
 			if Event then
 				local suc, err = pcall(CurrentEvent)
 			end
+			TargetBoard()
 			if ARE then
 				print("[TC]: Refreshing")
 				Notification("🔄", "Refreshing", 3)
